@@ -8,7 +8,7 @@ exports.addExpense = async(req , res)=>{
     if(!category || !amount || !date) {
       return res.status(400).json({message:"All fields are required"});
     }
-    const newExpense = new this.addExpense({
+    const newExpense = new Expense({
       userId,
       icon,
       category,
@@ -19,7 +19,7 @@ exports.addExpense = async(req , res)=>{
     res.status(200).json(newExpense);
   }
   catch (error){
-    res.status(500).json({message : "Server Error"});
+    res.status(500).json({message : `Server Error: ${error.message}`});
   }
 };
 exports.getAllExpense = async( req ,res)=>{
@@ -29,7 +29,7 @@ exports.getAllExpense = async( req ,res)=>{
       res.json(Expense);
     }
     catch (error){
-      res.status(500).json({message:"Server Error"});
+      res.status(500).json({message:`Server Error : ${error.message}`});
     }
 
 };
@@ -38,7 +38,7 @@ exports.deleteExpense = async( req ,res)=>{
       await Expense.findByIdAndDelete(req.params.id);
       res.json({message:"Item deleted successfully"});
     } catch (error) {
-      res.status(500).json({message:"Server Error"});
+      res.status(500).json({message:`Server Error : ${error.message}`});
     }
 };
 exports.downloadExpenseExcel = async( req ,res)=>{
@@ -57,6 +57,6 @@ exports.downloadExpenseExcel = async( req ,res)=>{
       res.download("Expense_details.xlsx")
     }
     catch (error) {
-      res.status(500).json({message:"Server Error"});
+      res.status(500).json({message:` Server Error: ${error.message}`});
     }
 };
